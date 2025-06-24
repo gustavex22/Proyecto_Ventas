@@ -1,4 +1,4 @@
-package com.Tralaleritos_cringe.backend.Tablas;
+package main.java.com.Tralaleritos_cringe.backend.Tablas;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
