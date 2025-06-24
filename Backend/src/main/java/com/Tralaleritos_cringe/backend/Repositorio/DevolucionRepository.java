@@ -1,4 +1,4 @@
-package main.java.com.Tralaleritos_cringe.backend.Repositorio;
+package com.Tralaleritos_cringe.backend.Repositorio;
 
 import com.Tralaleritos_cringe.backend.Tablas.Entidad_Devolucion;
 import org.springframework.data.jpa.repository.JpaRepository;

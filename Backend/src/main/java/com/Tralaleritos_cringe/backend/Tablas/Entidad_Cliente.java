@@ -1,4 +1,4 @@
-package main.java.com.Tralaleritos_cringe.backend.Tablas;
+package com.Tralaleritos_cringe.backend.Tablas;
 
 import jakarta.persistence.*;
 

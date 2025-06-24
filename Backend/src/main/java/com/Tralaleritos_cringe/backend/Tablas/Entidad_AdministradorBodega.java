@@ -1,6 +1,10 @@
-package main.java.com.Tralaleritos_cringe.backend.Tablas;
+package com.Tralaleritos_cringe.backend.Tablas;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "ADMINISTRADOR_BODEGA")
