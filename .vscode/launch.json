@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "BackendApplication",
+            "request": "launch",
+            "mainClass": "com.Tralaleritos_cringe.BackendApplication",
+            "projectName": "backend"
+        },
+        {
+            "type": "java",
             "name": "main_Menu",
             "request": "launch",
             "mainClass": "com.Tralaleritos_cringe.main_Menu",

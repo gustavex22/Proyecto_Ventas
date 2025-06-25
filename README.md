@@ -17,4 +17,4 @@ Ejecutar Proyecto backend
 
   #Cambiar la ultima palabra por la tabla que quieras observar
 
-#Extra , la url a la que consultes mostrara el registo en la terminal
+#Extra , la url a la que consultes mostrara el registo en la terminal-
