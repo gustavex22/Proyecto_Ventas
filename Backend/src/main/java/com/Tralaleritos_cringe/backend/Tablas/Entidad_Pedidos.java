@@ -1,7 +1,8 @@
 package com.Tralaleritos_cringe.backend.Tablas;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
+
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "PEDIDOS")
@@ -22,4 +23,25 @@ public class Entidad_Pedidos {
     private Integer ESTADO;
     private String METODO_PAGO;
     private java.math.BigDecimal TOTAL;
+
+    public long getID_PEDIDO() { return ID_PEDIDO; }
+    public void setID_PEDIDO(long ID_PEDIDO) { this.ID_PEDIDO = ID_PEDIDO; }
+
+    public Entidad_Usuario getUsuario() { return usuario; }
+    public void setUsuario(Entidad_Usuario usuario) { this.usuario = usuario; }
+
+    public Entidad_SucursalBodega getBodega() { return bodega; }
+    public void setBodega(Entidad_SucursalBodega bodega) { this.bodega = bodega; }
+
+    public java.time.LocalDateTime getFECHA() { return FECHA; }
+    public void setFECHA(java.time.LocalDateTime FECHA) { this.FECHA = FECHA; }
+
+    public Integer getESTADO() { return ESTADO; }
+    public void setESTADO(Integer ESTADO) { this.ESTADO = ESTADO; }
+
+    public String getMETODO_PAGO() { return METODO_PAGO; }
+    public void setMETODO_PAGO(String METODO_PAGO) { this.METODO_PAGO = METODO_PAGO; }
+
+    public java.math.BigDecimal getTOTAL() { return TOTAL; }
+    public void setTOTAL(java.math.BigDecimal TOTAL) { this.TOTAL = TOTAL; }
 }
