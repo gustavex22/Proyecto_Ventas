@@ -32,7 +32,7 @@ public class SucursalBodegaController {
 
     @PutMapping("/{id}")
     public Entidad_SucursalBodega actualizar(@PathVariable Long id, @RequestBody Entidad_SucursalBodega entidad) {
-        entidad.setID_SUCURSAL_BODEGA(id);
+        entidad.setID_BODEGA(id);
         return sucursalBodegaRepository.save(entidad);
     }
 

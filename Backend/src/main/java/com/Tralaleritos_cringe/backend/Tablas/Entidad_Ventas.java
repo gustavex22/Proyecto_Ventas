@@ -19,7 +19,7 @@ public class Entidad_Ventas {
 
     private String FECHA_VENTA;
     private String ESTADO;
-    private Long ID_VENTA;
+    
 
     public long getID_VENTAS() { return ID_VENTAS; }
     public void setID_VENTAS(long ID_VENTAS) { this.ID_VENTAS = ID_VENTAS; }
@@ -36,8 +36,4 @@ public class Entidad_Ventas {
     public String getESTADO() { return ESTADO; }
     public void setESTADO(String ESTADO) { this.ESTADO = ESTADO; }
 
-    public Long getID_VENTA() { return ID_VENTA; }
-    public void setID_VENTA(Long id) {
-        this.ID_VENTA = id;
-    }
 }

@@ -27,7 +27,7 @@ public class Entidad_LoginAuditoria {
     private LocalDate FECHA_CREACION;
     private LocalDate FECHA_ACCION;
     private String IP_ADDRESS;
-    private Long ID_LOGIN_AUDITORIA;
+
 
     public long getID_AUDITORIA() { return ID_AUDITORIA; }
     public void setID_AUDITORIA(long ID_AUDITORIA) { this.ID_AUDITORIA = ID_AUDITORIA; }
@@ -62,6 +62,4 @@ public class Entidad_LoginAuditoria {
     public String getIP_ADDRESS() { return IP_ADDRESS; }
     public void setIP_ADDRESS(String IP_ADDRESS) { this.IP_ADDRESS = IP_ADDRESS; }
 
-    public Long getID_LOGIN_AUDITORIA() { return ID_LOGIN_AUDITORIA; }
-    public void setID_LOGIN_AUDITORIA(Long id) { this.ID_LOGIN_AUDITORIA = id; }
 }

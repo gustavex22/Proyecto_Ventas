@@ -22,7 +22,6 @@ public class Entidad_DetalleVentas {
     private BigDecimal PRECIO_UNITARIO;
     // SUB_TOTAL is a computed column in SQL, not mapped here
 
-    private Long ID_DETALLE_VENTA;
 
     public long getID_DETALLE() { return ID_DETALLE; }
     public void setID_DETALLE(long ID_DETALLE) { this.ID_DETALLE = ID_DETALLE; }
@@ -38,7 +37,4 @@ public class Entidad_DetalleVentas {
 
     public java.math.BigDecimal getPRECIO_UNITARIO() { return PRECIO_UNITARIO; }
     public void setPRECIO_UNITARIO(java.math.BigDecimal PRECIO_UNITARIO) { this.PRECIO_UNITARIO = PRECIO_UNITARIO; }
-
-    public Long getID_DETALLE_VENTA() { return ID_DETALLE_VENTA; }
-    public void setID_DETALLE_VENTA(Long id) { this.ID_DETALLE_VENTA = id; }
 }

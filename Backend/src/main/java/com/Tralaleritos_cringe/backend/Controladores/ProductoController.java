@@ -23,4 +23,14 @@ public class ProductoController {
     public Entidad_Producto crearProducto(@RequestBody Entidad_Producto producto) {
         return productoRepository.save(producto);
     }
+    @PutMapping("/{id}")
+    public Entidad_Producto actualizar(@PathVariable Long id, @RequestBody Entidad_Producto entidad) {
+        entidad.setID_PRODUCTO(id);
+        return productoRepository.save(entidad);
+    }
+
+    @DeleteMapping("/{id}")
+    public void eliminar(@PathVariable Long id) {
+        productoRepository.deleteById(id);
+    }
 }

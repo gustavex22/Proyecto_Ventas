@@ -11,7 +11,7 @@ public class Entidad_Cliente {
 
     @ManyToOne
     @JoinColumn(name = "ID_ROL")
-    private Entidad_Roles rol;
+    private Entidad_Roles ID_ROL;
 
     @Column(name = "PREFERENCIAS")
     private String PREFERENCIAS;
@@ -31,8 +31,8 @@ public class Entidad_Cliente {
     public long getID_CLIENTE() { return ID_CLIENTE; }
     public void setID_CLIENTE(long ID_CLIENTE) { this.ID_CLIENTE = ID_CLIENTE; }
 
-    public Entidad_Roles getRol() { return rol; }
-    public void setRol(Entidad_Roles rol) { this.rol = rol; }
+    public Entidad_Roles getRol() { return ID_ROL; }
+    public void setRol(Entidad_Roles rol) { this.ID_ROL = rol; }
 
     public String getPREFERENCIAS() { return PREFERENCIAS; }
     public void setPREFERENCIAS(String PREFERENCIAS) { this.PREFERENCIAS = PREFERENCIAS; }

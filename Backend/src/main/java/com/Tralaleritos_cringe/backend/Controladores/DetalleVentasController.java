@@ -32,7 +32,7 @@ public class DetalleVentasController {
 
     @PutMapping("/{id}")
     public Entidad_DetalleVentas actualizar(@PathVariable Long id, @RequestBody Entidad_DetalleVentas entidad) {
-        entidad.setID_DETALLE_VENTA(id);
+        entidad.setID_DETALLE(id);
         return detalleVentasRepository.save(entidad);
     }
 

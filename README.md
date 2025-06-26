@@ -6,6 +6,20 @@ Backend:
 
 Ejecutar Proyecto backend
 
+#Instalar Maven Terminal
+
+# Usar el Bin complementos , Descomprimirlo luego
+
+#Añadir en las variables de entorno
+
+MAVEN_HOME: Crea una nueva variable de entorno llamada MAVEN_HOME y apunta al directorio raíz de Maven (donde se encuentra la carpeta bin). 
+M2_HOME: Crea una nueva variable de entorno llamada M2_HOME y también apunta al directorio raíz de Maven. 
+PATH: Agrega el directorio bin de Maven a la variable de entorno PATH. Esto permite ejecutar el comando mvn desde cualquier ubicación en la terminal. 
+
+
+#Comprobar Instalacion usando el comando mvn -version en la terminal (Se requiere reiniciar PC) 
+
+
 #limpiar copilacion
   mvn clean package
 

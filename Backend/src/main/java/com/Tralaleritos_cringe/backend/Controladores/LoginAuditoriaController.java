@@ -32,7 +32,7 @@ public class LoginAuditoriaController {
 
     @PutMapping("/{id}")
     public Entidad_LoginAuditoria actualizar(@PathVariable Long id, @RequestBody Entidad_LoginAuditoria entidad) {
-        entidad.setID_LOGIN_AUDITORIA(id);
+        entidad.setID_AUDITORIA(id);
         return loginAuditoriaRepository.save(entidad);
     }
 

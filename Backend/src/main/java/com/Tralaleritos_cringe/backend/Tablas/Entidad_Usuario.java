@@ -15,22 +15,16 @@ import jakarta.persistence.Table;
 @Table(name = "USUARIO")
 public class Entidad_Usuario {
     @Id
-    @Column(name = "ID_USUARIO")
     private long ID_USUARIO;
 
-    @Column(name = "NOMBRE")
     private String NOMBRE;
 
-    @Column(name = "CORREO")
     private String CORREO;
 
-    @Column(name = "USUARIO")
     private String USUARIO;
 
-    @Column(name = "CONTRASENA")
-    private String CONTRASENA;
+    private String CONTRASEÑA;
 
-    @Column(name = "TELEFONO")
     private String TELEFONO;
 
 
@@ -38,16 +32,12 @@ public class Entidad_Usuario {
     @JoinColumn(name = "ID_ROL")
     private Entidad_Roles roles;
 
-    @Column(name = "ACTIVO")
     private boolean ACTIVO;
 
-    @Column(name = "IP_ADDRESS")
     private String IP_ADDRESS;
 
-    @Column(name = "FECHA_CREACION")
     private LocalDateTime FECHA_CREACION;
 
-    @Column(name = "FECHA_ELIMINACION")
     private LocalDate FECHA_ELIMINACION;
 
     public long getID_USUARIO() { return ID_USUARIO; }
@@ -62,8 +52,8 @@ public class Entidad_Usuario {
     public String getUSUARIO() { return USUARIO; }
     public void setUSUARIO(String USUARIO) { this.USUARIO = USUARIO; }
 
-    public String getCONTRASENA() { return CONTRASENA; }
-    public void setCONTRASENA(String CONTRASENA) { this.CONTRASENA = CONTRASENA; }
+    public String getCONTRASENA() { return CONTRASEÑA; }
+    public void setCONTRASENA(String CONTRASENA) { this.CONTRASEÑA = CONTRASENA; }
 
     public String getTELEFONO() { return TELEFONO; }
     public void setTELEFONO(String TELEFONO) { this.TELEFONO = TELEFONO; }
