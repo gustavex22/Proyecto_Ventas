@@ -21,10 +21,12 @@ PATH: Agrega el directorio bin de Maven a la variable de entorno PATH. Esto perm
 
 
 # limpiar copilacion
-  mvn clean package
+  mvn clean package -DskipTests
 
 # Ejecutar proyecto
   mvn spring-boot:run
+
+# Alternativa usar el mvnw ,agregado al proyecto , no necesita instalacion solo reemplazar (mvn) por (./mvnw) solo funciona en la terminal de powershell
 
 # Entrar a la pagina
   http://localhost:8080/api/productos
