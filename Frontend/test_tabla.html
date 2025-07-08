@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+    <!-- Aqui se define la tabla y el diseño de esta  -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+
+
+<body>
+    <h1>Lista de Productos</h1>
+    
+    <table id="productos">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Proveedor</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Los productos se agregarán aquí -->
+        </tbody>
+    </table>
+<!-- Campos para agregar los datos de un producto , solo es diseño -->
+    <h2>Agregar Nuevo Producto</h2>
+    <form id="productoForm">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" required>
+        <br>
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" required>
+        <br>
+        <label for="precio">Precio:</label>
+        <input type="number" id="precio" required>
+        <br>
+        <label for="proveedor">Proveedor:</label>
+        <input type="text" id="proveedor" required>
+        <br>
+        <label for="estado">Estado:</label>
+        <input type="text" id="estado" required>
+        <br>
+        <button type="submit">Agregar Producto</button>
+    </form>
+
+
+
+    <script>
+        // Definición de interfaces
+        interface Proveedor {
+            id_PROVEEDOR: number;
+            direccion: string;
+            telefono: string;
+            total_COMPRA: number;
+            fecha: string;
+            nombre: string;
+            correo: string;
+        }
+
+        interface Producto {
+            proveedor: Proveedor;
+            id_PRODUCTO: number;
+            descripcion: string;
+            precio_COSTO: number;
+            nombre_CATEGORIA: string;
+            fecha_VENCIMIENTO: string;
+            fecha_PRODUCCION: string;
+            estado: string;
+            nombre: string;
+        }
+
+        // Función para obtener productos
+        async function obtenerProductos() {
+            try {
+                const response = await fetch('http://localhost:8080/api/productos');
+                const productos: Producto[] = await response.json();
+                mostrarProductos(productos);
+            } catch (error) {
+                console.error('Error al obtener productos:', error);
+            }
+        }
+
+        // Función para mostrar productos en la tabla
+        function mostrarProductos(productos: Producto[]) {
+            const tbody = document.querySelector('#productos tbody');
+            if (tbody) {
+                tbody.innerHTML = ''; // Limpiar el cuerpo de la tabla
+                productos.forEach(producto => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${producto.nombre}</td>
+                        <td>${producto.descripcion}</td>
+                        <td>$${producto.precio_COSTO}</td>
+                        <td>${producto.proveedor.nombre}</td>
+                        <td>${producto.estado}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+        }
+
+        // Función para agregar un nuevo producto
+        document.getElementById('productoForm')?.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevenir el envío del formulario
+
+            const nuevoProducto: Producto = {
+                proveedor: {
+                    id_PROVEEDOR: 0, // Asigna un ID adecuado o maneja esto en el backend
+                    direccion: '',
+                    telefono: '',
+                    total_COMPRA: 0,
+                    fecha: '',
+                    nombre: document.getElementById('proveedor')?.value || '',
+                    correo: ''
+                },
+                id_PRODUCTO: 0, // Asigna un ID adecuado o maneja esto en el backend
+                descripcion: document.getElementById('descripcion')?.value || '',
+                precio_COSTO: parseFloat(document.getElementById('precio')?.value || '0'),
+                nombre_CATEGORIA: '', // Asigna una categoría adecuada
+                fecha_VENCIMIENTO: '', // Asigna una fecha adecuada
+                fecha_PRODUCCION: '', // Asigna una fecha adecuada
+                estado: document.getElementById('estado')?.value || '',
+                nombre: document.getElementById('nombre')?.value || ''
+            };
+
+            // Aquí puedes enviar el nuevo producto al backend
+            console.log('Nuevo producto:', nuevoProducto);
+            // Puedes hacer un POST a tu API aquí
+
+            // Limpiar el formulario
+            document.getElementById('productoForm')?.reset();
+        });
+
+        // Llamar a la función para obtener productos al cargar la página
+        window.onload = obtenerProductos;
+    </script>
+</body>
+</html>
