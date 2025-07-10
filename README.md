@@ -34,3 +34,13 @@ PATH: Agrega el directorio bin de Maven a la variable de entorno PATH. Esto perm
   #Cambiar la ultima palabra por la tabla que quieras observar
 
 #Extra , la url a la que consultes mostrara el registo en la terminal-
+
+
+
+
+
+# Copilar codigo TS a JS
+  usar tsc --init para inciar el copilador
+
+  # usar ( tsc nombre_del_archivo.ts) o solo (tsc) para compilar todos los archivos ts
+  esto genera un archivo js basado del archivo ts ,para uso en tml5 

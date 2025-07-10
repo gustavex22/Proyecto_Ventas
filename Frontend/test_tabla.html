@@ -5,20 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Productos</title>
+    <!-- aqui se define el diseño de la tabla -->
     <style>
         table {
             width: 100%;
             border-collapse: collapse;
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
+        
+        th, td { 
+            border: 4px solid #000000;
+            padding: 10px;
+            text-align: center;
         }
+        
         th {
-            background-color: #f2f2f2;
+            background-color: #6d6d6d;
         }
     </style>
+
 </head>
 
 
@@ -36,13 +40,16 @@
                 <th>Estado</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id = "tabla-body">
             <!-- Los productos se agregarán aquí -->
         </tbody>
     </table>
+    
 <!-- Campos para agregar los datos de un producto , solo es diseño -->
     <h2>Agregar Nuevo Producto</h2>
+
     <form id="productoForm">
+
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" required>
         <br>
@@ -64,93 +71,51 @@
 
 
     <script>
-        // Definición de interfaces
-        interface Proveedor {
-            id_PROVEEDOR: number;
-            direccion: string;
-            telefono: string;
-            total_COMPRA: number;
-            fecha: string;
-            nombre: string;
-            correo: string;
-        }
 
-        interface Producto {
-            proveedor: Proveedor;
-            id_PRODUCTO: number;
-            descripcion: string;
-            precio_COSTO: number;
-            nombre_CATEGORIA: string;
-            fecha_VENCIMIENTO: string;
-            fecha_PRODUCCION: string;
-            estado: string;
-            nombre: string;
-        }
+        const formulario = document.getElementById('test_tabla');
+        const tabla = document.getElementById('tabla-body');
 
-        // Función para obtener productos
-        async function obtenerProductos() {
-            try {
-                const response = await fetch('http://localhost:8080/api/productos');
-                const productos: Producto[] = await response.json();
-                mostrarProductos(productos);
-            } catch (error) {
-                console.error('Error al obtener productos:', error);
+        formulario.addEventListener('submit', (e) => {
+            e.Preventedefault();
+
+            const nombre = document.getElementById('nombre').value;
+            const descripcion = document.getElementById('descripcion').value;
+            const precio = document.getElementById('precio').value;
+            const proveedor = document.getElementById('proveedor').value;
+            const estado = document.getElementById('estado').value;
+
+
+            if (nombre !== '' && descripcion !== '' && precio !== '' && proveedor !== '' && estado !== '') {
+
+                const fila = tabla.insertRow(-1);
+
+                // Agregar celdas a la fila
+                const celdaNombre = fila.insertCell(0);
+                const celdaDescripcion = fila.insertCell(1);
+                const celdaPrecio = fila.insertCell(2);
+                const celdaProveedor = fila.insertCell(3);
+                const celdaEstado = fila.insertCell(4);
+
+                // Agregar texto a las celdas
+                celdaNombre.textContent = nombre;
+                celdaDescripcion.textContent = descripcion;
+                celdaPrecio.textContent = precio;
+                celdaProveedor.textContent = proveedor;
+                celdaEstado.textContent = estado;
+
+                // Limpiar los campos de entrada
+                document.getElementById('nombre').value = '';
+                document.getElementById('descripcion').value = '';
+                document.getElementById('precio').value = '';
+                document.getElementById('proveedor').value = '';
+                document.getElementById('estado').value = '';
+
+            } else {
+                alert('Complete los todos los campos')
             }
-        }
 
-        // Función para mostrar productos en la tabla
-        function mostrarProductos(productos: Producto[]) {
-            const tbody = document.querySelector('#productos tbody');
-            if (tbody) {
-                tbody.innerHTML = ''; // Limpiar el cuerpo de la tabla
-                productos.forEach(producto => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${producto.nombre}</td>
-                        <td>${producto.descripcion}</td>
-                        <td>$${producto.precio_COSTO}</td>
-                        <td>${producto.proveedor.nombre}</td>
-                        <td>${producto.estado}</td>
-                    `;
-                    tbody.appendChild(row);
-                });
-            }
-        }
-
-        // Función para agregar un nuevo producto
-        document.getElementById('productoForm')?.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevenir el envío del formulario
-
-            const nuevoProducto: Producto = {
-                proveedor: {
-                    id_PROVEEDOR: 0, // Asigna un ID adecuado o maneja esto en el backend
-                    direccion: '',
-                    telefono: '',
-                    total_COMPRA: 0,
-                    fecha: '',
-                    nombre: document.getElementById('proveedor')?.value || '',
-                    correo: ''
-                },
-                id_PRODUCTO: 0, // Asigna un ID adecuado o maneja esto en el backend
-                descripcion: document.getElementById('descripcion')?.value || '',
-                precio_COSTO: parseFloat(document.getElementById('precio')?.value || '0'),
-                nombre_CATEGORIA: '', // Asigna una categoría adecuada
-                fecha_VENCIMIENTO: '', // Asigna una fecha adecuada
-                fecha_PRODUCCION: '', // Asigna una fecha adecuada
-                estado: document.getElementById('estado')?.value || '',
-                nombre: document.getElementById('nombre')?.value || ''
-            };
-
-            // Aquí puedes enviar el nuevo producto al backend
-            console.log('Nuevo producto:', nuevoProducto);
-            // Puedes hacer un POST a tu API aquí
-
-            // Limpiar el formulario
-            document.getElementById('productoForm')?.reset();
         });
 
-        // Llamar a la función para obtener productos al cargar la página
-        window.onload = obtenerProductos;
     </script>
 </body>
 </html>

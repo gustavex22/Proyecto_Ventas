@@ -27,7 +27,7 @@
         // Función para obtener productos
 
 
-        async function obtenerProductos() { //? async , indica que contiene operaciones con un tiempo variado de ejecucion , en este caso usa una url  por red vpor lo que es valido usarlo
+        async function obtenerProductos() { //? async , indica que contiene operaciones con un tiempo variado de ejecucion , en este caso usa una url  por red por lo que es valido usarlo
             try {
                 const response = await fetch('http://localhost:8080/api/productos'); //? fetch , comando para hacer solicitudes get a urls , await se usa para darle tiempo al ocmando fetch en la solicitud http
                 const productos: Producto[] = await response.json();
