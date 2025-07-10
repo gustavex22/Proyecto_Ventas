@@ -1,0 +1,13 @@
+body:
+    Define la fuente, color de texto, ancho máximo, márgenes automáticos para centrar, 
+    padding y color de fondo gris claro para toda la página.
+
+H1:
+    Etiqueta del titulo principal de la pagina.
+
+
+.container:
+    Contenedor principal dentro de este se especifica el ancho máximo y el margen ,
+    automático para centrar el contenido.
+
+
