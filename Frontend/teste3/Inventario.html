@@ -1,156 +1,358 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inventario - Admin</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #5b5b5b;
-      padding: 20px;
-      color: #333;
-    }
-
-    .container {
-      background: white;
-      padding: 25px;
-      border-radius: 8px;
-      max-width: 1000px;
-      margin: auto;
-      box-shadow: 0 4px 6px #333;
-    }
-
-    h1 {
-      text-align: center;
-      color: #067bf0;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    label {
-      font-weight: bold;
-    }
-
-    input {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .controls button {
-      flex: 1;
-      background-color: #3498db;
-      color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .controls button:hover {
-      background-color: #2980b9;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 12px;
-      border-bottom: 1px solid #000;
-      text-align: center;
-    }
-
-    th {
-      background-color: #3498db;
-      color: white;
-    }
-
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-
-    .btn-edit, .btn-delete {
-      padding: 6px 10px;
-      margin: 2px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      color: white;
-    }
-
-    .btn-edit {
-      background-color: #f39c12;
-    }
-
-    .btn-delete {
-      background-color: #e74c3c;
-    }
-
-    @media (max-width: 600px) {
-      .controls {
-        flex-direction: column;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario - Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css ">
+    <style>
+        /* Estilos generales */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f2f5; /* Fondo claro profesional */
+            color: #333;
+        }
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            max-width: 1200px;
+            margin: auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #067bf0; /* Azul tecnológico */
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            border-color: #067bf0; /* Resalta campos activos */
+            outline: none;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .controls button {
+            flex: 1;
+            background-color: #067bf0; /* Botones azules */
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .controls button:hover {
+            background-color: #055ca9; /* Sombra al pasar */
+        }
+        .btn-edit {
+            background-color: #f39c12; /* Naranja para editar */
+        }
+        .btn-delete {
+            background-color: #e74c3c; /* Rojo para eliminar */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #067bf0; /* Encabezado azul */
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .image-preview {
+            max-width: 100px;
+            max-height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+        /* Estilos del modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 600px;
+            text-align: center;
+        }
+        .close-modal {
+            float: right;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Gestión de Inventario</h1>
+    <div class="container">
+        <h1>Gestión de Inventario</h1>
+        
+        <!-- Formulario de productos -->
+        <form id="productForm">
+            <div class="form-group">
+                <label for="nombreInput">Producto:</label>
+                <input type="text" id="nombreInput" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="categoriaInput">Categoría:</label>
+                <input type="text" id="categoriaInput" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="precioInput">Precio (S/.):</label>
+                <input type="number" id="precioInput" step="0.01" min="0" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="stockInput">Stock:</label>
+                <input type="number" id="stockInput" min="0" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="imagenInput">Imagen:</label>
+                <input type="file" id="imagenInput" accept="image/*" required>
+                <img id="imagePreview" class="image-preview" src="" alt="Vista previa">
+            </div>
+            
+            <div class="form-group">
+                <label for="fechaVencimiento">Fecha de Vencimiento:</label>
+                <input type="date" id="fechaVencimiento" required>
+            </div>
 
-    <div class="form-group">
-      <label for="nombreInput">Producto:</label>
-      <input type="text" id="nombreInput">
+            <div class="controls">
+                <button type="submit">Agregar Producto</button>
+                <button onclick="limpiarFormulario()">Limpiar Todo</button>
+            </div>
+        </form>
+
+        <!-- Tabla de productos -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Categoría</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tablaBody"></tbody>
+        </table>
+
+        <!-- Modal de edición -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h3>Editar Producto</h3>
+                <div class="form-group">
+                    <label for="editNombre">Nombre:</label>
+                    <input type="text" id="editNombre">
+                </div>
+                <div class="form-group">
+                    <label for="editCategoria">Categoría:</label>
+                    <input type="text" id="editCategoria">
+                </div>
+                <div class="form-group">
+                    <label for="editPrecio">Precio:</label>
+                    <input type="number" id="editPrecio" step="0.01" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="editStock">Stock:</label>
+                    <input type="number" id="editStock" min="0">
+                </div>
+                <div class="controls">
+                    <button onclick="guardarEdicion()">Guardar Cambios</button>
+                    <button onclick="cerrarModal()">Cancelar</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-      <label for="categoriaInput">Categoría:</label>
-      <input type="text" id="categoriaInput">
-    </div>
+    <script>
+        let editandoId = null;
+        let modal = document.getElementById("editModal");
 
-    <div class="form-group">
-      <label for="precioInput">Precio (S/.):</label>
-      <input type="number" id="precioInput">
-    </div>
+        document.getElementById("productForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const nombre = document.getElementById("nombreInput").value.trim();
+            const categoria = document.getElementById("categoriaInput").value.trim();
+            const precio = parseFloat(document.getElementById("precioInput").value);
+            const stock = parseInt(document.getElementById("stockInput").value);
+            const imagen = document.getElementById("imagenInput").files[0];
+            const fechaVencimiento = document.getElementById("fechaVencimiento").value;
 
-    <div class="form-group">
-      <label for="stockInput">Stock:</label>
-      <input type="number" id="stockInput">
-    </div>
+            if (!nombre || !categoria || isNaN(precio) || isNaN(stock) || !imagen || !fechaVencimiento) {
+                alert("Por favor, complete todos los campos.");
+                return;
+            }
 
-    <div class="controls">
-      <button id="btnAgregar">Agregar Producto</button>
-      <button id="btnEjemplo">Añadir Ejemplos</button>
-      <button id="btnLimpiar">Limpiar Todo</button>
-    </div>
+            // Lógica para subir la imagen a tu servidor (reemplazar con tu API)
+            /*
+            const formData = new FormData();
+            formData.append("name", nombre);
+            formData.append("category", categoria);
+            formData.append("price", precio);
+            formData.append("stock", stock);
+            formData.append("image", imagen);
+            formData.append("expirationDate", fechaVencimiento);
 
-    <table>
-      <thead>
-        <tr>
-          <th>Producto</th>
-          <th>Categoría</th>
-          <th>Precio</th>
-          <th>Stock</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody id="tablaBody"></tbody>
-    </table>
-  </div>
+            await fetch('/api/products', {
+                method: editandoId ? 'PUT' : 'POST',
+                body: formData
+            });
+            */
 
-  <script src="inventario.js"></script>
+            limpiarFormulario();
+            mostrarProductos();
+        });
+
+        document.getElementById("imagenInput").addEventListener("change", (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById("imagePreview").src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        async function mostrarProductos() {
+            try {
+                // Llamada a tu API para obtener productos (reemplazar con tu URL)
+                /*
+                const response = await fetch('/api/products');
+                const productos = await response.json();
+                */
+                
+                // Datos de ejemplo (reemplazar con tu API)
+                const productos = [
+                    { id: 1, name: "Laptop HP", category: "Tecnología", price: 2500, stock: 8 },
+                    { id: 2, name: "Mouse Logitech", category: "Accesorios", price: 80, stock: 50 }
+                ];
+
+                const tablaBody = document.getElementById("tablaBody");
+                tablaBody.innerHTML = "";
+
+                productos.forEach(p => {
+                    const fila = document.createElement("tr");
+                    fila.innerHTML = `
+                        <td>${p.name}</td>
+                        <td>${p.category}</td>
+                        <td>S/. ${p.price.toFixed(2)}</td>
+                        <td>${p.stock}</td>
+                        <td>
+                            <button class="btn-edit" onclick="abrirModal(${p.id})">Editar</button>
+                            <button class="btn-delete" onclick="eliminar(${p.id})">Eliminar</button>
+                        </td>
+                    `;
+                    tablaBody.appendChild(fila);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function eliminar(id) {
+            if (!confirm("¿Eliminar este producto?")) return;
+            // Llamada a tu API para eliminar
+            /*
+            fetch(`/api/products/${id}`, { method: 'DELETE' })
+                .then(() => mostrarProductos());
+            */
+        }
+
+        function abrirModal(id) {
+            modal.style.display = "flex";
+            // Lógica para prellenar el formulario con los datos del producto
+            /*
+            fetch(`/api/products/${id}`)
+                .then(response => response.json())
+                .then(producto => {
+                    document.getElementById("editNombre").value = producto.name;
+                    document.getElementById("editCategoria").value = producto.category;
+                    document.getElementById("editPrecio").value = producto.price;
+                    document.getElementById("editStock").value = producto.stock;
+                    editandoId = id;
+                });
+            */
+        }
+
+        function guardarEdicion() {
+            const nombre = document.getElementById("editNombre").value.trim();
+            const categoria = document.getElementById("editCategoria").value.trim();
+            const precio = parseFloat(document.getElementById("editPrecio").value);
+            const stock = parseInt(document.getElementById("editStock").value);
+
+            if (!nombre || !categoria || isNaN(precio) || isNaN(stock)) {
+                alert("Por favor, complete todos los campos.");
+                return;
+            }
+
+            // Llamada a tu API para actualizar
+            /*
+            fetch(`/api/products/${editandoId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: nombre, category: categoria, price: precio, stock: stock })
+            })
+                .then(() => {
+                    cerrarModal();
+                    mostrarProductos();
+                });
+            */
+        }
+
+        function cerrarModal() {
+            modal.style.display = "none";
+            limpiarFormulario();
+        }
+
+        function limpiarFormulario() {
+            document.getElementById("productForm").reset();
+            document.getElementById("imagePreview").src = "";
+            editandoId = null;
+        }
+
+        // Cargar productos al iniciar la página
+        window.onload = mostrarProductos;
+    </script>
 </body>
 </html>

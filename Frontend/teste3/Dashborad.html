@@ -258,6 +258,35 @@
         function showCart() {
             alert(`Productos en el carrito: ${cart.length}`);
         }
+
+        // Add this to your existing script section
+async function cargarProductos() {
+    try {
+        const response = await fetch('/api/products');
+        const productos = await response.json();
+        const grid = document.querySelector('.products-grid');
+        grid.innerHTML = ""; // Clear existing products
+
+        productos.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <div class="product-image" style="background-image: url('${p.imageUrl}');"></div>
+                <div class="product-details">
+                    <h3 class="product-name">${p.name}</h3>
+                    <span class="product-price">$${p.price.toFixed(2)}</span>
+                    <button class="add-to-cart-btn" onclick="addToCart(${p.id})">Agregar al carrito</button>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+// Call on page load
+window.onload = cargarProductos;
     </script>
 </body>
 </html>
