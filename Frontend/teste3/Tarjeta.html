@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago - Bodega Cash & Collect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css ">
+    <style>
+        /* Estilos generales */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #e6f7ff 0%, #ffffff 100%);
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        input[type="text"],
+        input[type="number"],
+        select,
+        input[type="month"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+        input:focus,
+        select:focus {
+            border-color: #067bf0;
+            outline: none;
+        }
+        .error-message {
+            position: relative;
+            padding-left: 30px;
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 5px;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            background: #ffe6e6;
+            border: 1px solid #ff4444;
+            border-radius: 4px;
+        }
+        .error-message::before {
+            content: '❗';
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .show-error {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .controls {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            background: #067bf0;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #055ca9;
+        }
+        /* Animaciones de iconos */
+        .icon-check {
+            display: none;
+            font-size: 40px;
+            color: #2ecc71;
+            animation: fadeIn 0.5s;
+        }
+        .icon-x {
+            display: none;
+            font-size: 40px;
+            color: #e74c3c;
+            animation: shake 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Realizar Pago</h2>
+        
+        <form id="paymentForm">
+            <div class="form-group">
+                <label for="cardholder">Titular de la tarjeta:</label>
+                <input type="text" id="cardholder" required>
+                <div class="error-message" id="cardholderError"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="cardNumber">Número de tarjeta:</label>
+                <input type="text" id="cardNumber" pattern="\d{4}-\d{4}-\d{4}-\d{4}" required>
+                <div class="error-message" id="cardNumberError"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="expirationDate">Fecha de vencimiento:</label>
+                <input type="month" id="expirationDate" required>
+                <div class="error-message" id="expirationDateError"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" pattern="\d{3}" required>
+                <div class="error-message" id="cvvError"></div>
+            </div>
+            
+            <div class="form-group banks-select">
+                <label>Banco:</label>
+                <select id="bankSelect" required>
+                    <option value="">Seleccionar banco</option>
+                    <option value="bancodelnacion">
+                        Banco de la Nación
+                    </option>
+                    <option value="interbank">
+                        Interbank
+                    </option>
+                    <option value="scotiabank">
+                        Scotiabank
+                    </option>
+                    <option value="bcpp">
+                        Banco Continental del Peru (BCP)
+                    </option>
+                </select>
+                <div class="error-message" id="bankError"></div>
+            </div>
+
+            <div class="controls">
+                <button type="submit">Realizar Pago</button>
+            </div>
+            <div id="statusMessage"></div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("paymentForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            validateForm();
+        });
+
+        function validateForm() {
+            const cardholder = document.getElementById("cardholder").value.trim();
+            const cardNumber = document.getElementById("cardNumber").value;
+            const expirationDate = document.getElementById("expirationDate").value;
+            const cvv = document.getElementById("cvv").value;
+            const bank = document.getElementById("bankSelect").value;
+
+            // Validar titular
+            const cardholderError = document.getElementById("cardholderError");
+            cardholderError.classList.remove("show-error");
+            if (!cardholder) {
+                cardholderError.textContent = "Este campo es obligatorio";
+                cardholderError.classList.add("show-error");
+                return false;
+            }
+
+            // Validar número de tarjeta
+            const cardNumberError = document.getElementById("cardNumberError");
+            cardNumberError.classList.remove("show-error");
+            if (!/^\d{4}-\d{4}-\d{4}-\d{4}$/.test(cardNumber)) {
+                cardNumberError.textContent = "Formato incorrecto (ej: 1234-5678-9012-3456)";
+                cardNumberError.classList.add("show-error");
+                return false;
+            }
+
+            // Validar fecha de vencimiento
+            const expirationDateError = document.getElementById("expirationDateError");
+            expirationDateError.classList.remove("show-error");
+            if (!isValidMonth(expirationDate)) {
+                expirationDateError.textContent = "Fecha inválida";
+                expirationDateError.classList.add("show-error");
+                return false;
+            }
+
+            // Validar CVV
+            const cvvError = document.getElementById("cvvError");
+            cvvError.classList.remove("show-error");
+            if (cvv.length !== 3) {
+                cvvError.textContent = "Debe ser 3 dígitos";
+                cvvError.classList.add("show-error");
+                return false;
+            }
+
+            // Validar banco
+            const bankError = document.getElementById("bankError");
+            bankError.classList.remove("show-error");
+            if (!bank) {
+                bankError.textContent = "Selecciona un banco";
+                bankError.classList.add("show-error");
+                return false;
+            }
+
+            // Si todo es válido, mostrar animación de éxito
+            showSuccessAnimation();
+            return true;
+        }
+
+        function isValidMonth(dateString) {
+            const today = new Date();
+            const [year, month] = dateString.split('-');
+            return (
+                parseInt(year) > today.getFullYear() ||
+                (parseInt(year) === today.getFullYear() && parseInt(month) >= today.getMonth() + 1)
+            );
+        }
+
+        function showSuccessAnimation() {
+            const statusMessage = document.getElementById("statusMessage");
+            statusMessage.innerHTML = '<i class="fas fa-check-circle icon-check"></i>';
+            setTimeout(() => {
+                statusMessage.innerHTML = '';
+            }, 2000);
+        }
+
+        // Limpiar errores al hacer clic en los campos
+        document.querySelectorAll('input, select').forEach(input => {
+            input.addEventListener('click', () => {
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.classList.remove("show-error");
+                });
+            });
+        });
+    </script>
+</body>
+</html>
